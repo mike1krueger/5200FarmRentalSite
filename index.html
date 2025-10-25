@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horse Barn and Pasture for Rent</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('images/winterScene.JPG') center/cover no-repeat fixed;
+    color: #333;
+    overflow-x: hidden;
+  }
+
+  header {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    position: relative;
+  }
+  header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('images/winterScene.JPG') center/cover no-repeat;
+    z-index: -1;
+    filter: brightness(0.6);
+  }
+  header h1 {
+    font-size: 2.8em;
+    background-color: rgba(0, 0, 0, 0.55);
+    padding: 20px 30px;
+    border-radius: 12px;
+  }
+
+  section {
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: 60px auto;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 0;
+    color: #145b5e;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+  }
+
+  ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+
+  .carousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    border-radius: 10px;
+  }
+  .carousel img {
+    width: 100%;
+    display: none;
+    border-radius: 10px;
+  }
+  .carousel img.active {
+    display: block;
+  }
+  .dots {
+    text-align: center;
+    margin-top: 10px;
+  }
+  .dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .dot.active {
+    background-color: #2c7a7b;
+  }
+
+  iframe, #map {
+    width: 100%;
+    height: 300px;
+    border: 0;
+    border-radius: 10px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: auto;
+    background-color: rgba(255,255,255,0.85);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  input, textarea, select, button {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  button {
+    background-color: #1b6b70;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #144f52;
+  }
+
+  #successMsg {
+    display: none;
+    text-align: center;
+    color: green;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(6px);
+    border-top: 1px solid rgba(255,255,255,0.5);
+    font-weight: 500;
+  }
+
+  footer a {
+    color: #1b6b70;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+  .phone-link {
+    color: #1b6b70;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px){
+    header h1 { font-size: 1.8em; padding: 15px 25px; }
+    .carousel img { height: 300px; object-fit: cover; }
+  }
+  @media (max-width: 480px){
+    header h1 { font-size: 1.3em; }
+    .carousel img { height: 220px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Horse Barn and Pasture for Rent</h1>
+</header>
+
+<section id="about">
+  <h2>About the Property</h2>
+  <p>The bank barn and pasture are available for your exclusive use. Enjoy full access to the barn with two stalls, extra storage near the stalls, and approximately 4 acres of paddock and pasture. The property includes access to a private outdoor area. Driveway is shared with an adjacent home.</p>
+  <p>We are looking for someone with 2 or 3 horses. Depending on needs, rent is approximately $300 per horse per month.</p>
+  <p>Property Address: 5200 Old Quarter Road, Upperco MD 21155</p>
+  <div id="map"></div>
+</section>
+
+<section id="amenities">
+  <h2>Amenities</h2>
+  <ul>
+    <li>Full access to the bank barn with two stalls</li>
+    <li>Extra storage space conveniently located near the stalls</li>
+    <li>Paddock and pasture spanning ~4 acres, fully fenced and maintained</li>
+    <li>Private outdoor area</li>
+    <li>Water and electricity available for barn needs</li>
+  </ul>
+</section>
+
+<section id="gallery">
+  <h2>Gallery</h2>
+  <div class="carousel">
+    <img src="images/backYard.JPG" class="active" alt="Backyard">
+    <img src="images/bankBarn_winter_blanket.JPG" alt="Barn in winter">
+    <img src="images/bankBarnpasture_upto_barn.JPG" alt="Barn exterior">
+    <img src="images/Barn_Interior.JPG" alt="Barn interior">
+    <img src="images/barnfrompasture.jpg" alt="Pasture and paddock">
+    <img src="images/paddock.jpg" alt="Paddock">
+    <img src="images/timberFrameBarn_6acre_tower.JPG" alt="Barn tower view">
+  </div>
+  <div class="dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Call or Text: <a href="tel:+14436057640" class="phone-link">443-605-7640</a> or complete the form below</p>
+  <form id="contactForm">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="phone">
+
+    <label for="horses">Number of Horses</label>
+    <input type="number" id="horses" name="horses" min="1" max="3">
+
+    <label for="start">Desired Start Date</label>
+    <input type="date" id="start" name="start">
+
+    <label for="message">Describe your horse needs</label>
+    <textarea id="message" name="message" rows="5"></textarea>
+
+    <button type="submit">Send Request</button>
+  </form>
+  <div id="successMsg">Thank you! Your request has been submitted.</div>
+</section>
+
+<footer>
+  © 2025 5200 Farm Rental — <a href="tel:+14436057640">443-605-7640</a>
+</footer>
+
+<script>
+  // Fade-in animation on scroll
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.2 });
+  sections.forEach(sec => observer.observe(sec));
+
+  // Carousel
+  const slides = document.querySelectorAll('.carousel img');
+  const dots = document.querySelectorAll('.dot');
+  let current = 0;
+  function showSlide(index){
+    slides.forEach((s,i)=>s.classList.toggle('active',i===index));
+    dots.forEach((d,i)=>d.classList.toggle('active',i===index));
+  }
+  setInterval(()=> {current=(current+1)%slides.length; showSlide(current);},4000);
+  dots.forEach((dot,i)=>dot.addEventListener('click',()=>{current=i; showSlide(i);}));
+
+  // Form submission
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const formData = new FormData(this);
+    fetch('https://formspree.io/f/xblzebjw', {
+      method: 'POST',
+      body: formData,
+      headers: {'Accept': 'application/json'}
+    }).then(r => r.ok ? document.getElementById('successMsg').style.display='block' : alert('Submission error')).catch(() => alert('Network error'));
+  });
+
+  // Google Map
+  function initMap(){
+    const location = {lat: 39.5642179, lng: -76.824325};
+    const map = new google.maps.Map(document.getElementById('map'), {
+      center: location,
+      zoom: 16
+    });
+    new google.maps.Marker({position: location, map: map});
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC24fpancwTjsOynjCBlYe7jLcLidCBAns&callback=initMap" async defer></script>
+
+</body>
+</html>
