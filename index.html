@@ -73,11 +73,14 @@
     max-width: 1000px;
     margin: auto;
     border-radius: 10px;
+    cursor: grab;
   }
   .carousel img {
     width: 100%;
     display: none;
     border-radius: 10px;
+    user-select: none;
+    -webkit-user-drag: none;
   }
   .carousel img.active {
     display: block;
@@ -207,7 +210,7 @@
 
 <section id="gallery">
   <h2>Gallery</h2>
-  <div class="carousel">
+  <div class="carousel" id="carousel">
     <img src="images/DSC01623.JPG" class="active" alt="Farm view 1">
     <img src="images/DSC01624.JPG" alt="Farm view 2">
     <img src="images/DSC01626.JPG" alt="Farm view 3">
@@ -225,9 +228,7 @@
     <img src="images/DSC01640.JPG" alt="Farm view 15">
   </div>
   <div class="dots">
-    <!-- auto-generate matching dots -->
-    <span class="dot active"></span>
-    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
     <span class="dot"></span><span class="dot"></span><span class="dot"></span>
     <span class="dot"></span><span class="dot"></span><span class="dot"></span>
     <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -247,29 +248,22 @@
   </div>
 </section>
 
-
 <section id="contact">
   <h2>Contact</h2>
   <p>Call or Text: <a href="tel:+14436057640" class="phone-link">443-605-7640</a> or complete the form below</p>
   <form id="contactForm">
     <label for="name">Full Name</label>
     <input type="text" id="name" name="name" required>
-
     <label for="email">Email</label>
     <input type="email" id="email" name="email" required>
-
     <label for="phone">Phone Number</label>
     <input type="tel" id="phone" name="phone">
-
     <label for="horses">Number of Horses</label>
     <input type="number" id="horses" name="horses" min="1" max="3">
-
     <label for="start">Desired Start Date</label>
     <input type="date" id="start" name="start">
-
     <label for="message">Describe your horse needs</label>
     <textarea id="message" name="message" rows="5"></textarea>
-
     <button type="submit">Send Request</button>
   </form>
   <div id="successMsg">Thank you! Your request has been submitted.</div>
@@ -280,46 +274,71 @@
 </footer>
 
 <script>
-  // Fade-in animation on scroll
+  // Fade-in animation
   const sections = document.querySelectorAll('section');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
+      if(entry.isIntersecting) entry.target.classList.add('visible');
     });
-  }, { threshold: 0.2 });
+  }, {threshold:0.2});
   sections.forEach(sec => observer.observe(sec));
 
-  // Carousel
+  // Swipeable Carousel
   const slides = document.querySelectorAll('.carousel img');
   const dots = document.querySelectorAll('.dot');
   let current = 0;
+  let intervalTime = 4000;
+  let interval;
+  const carousel = document.getElementById('carousel');
+
   function showSlide(index){
     slides.forEach((s,i)=>s.classList.toggle('active',i===index));
     dots.forEach((d,i)=>d.classList.toggle('active',i===index));
   }
-  setInterval(()=> {current=(current+1)%slides.length; showSlide(current);},4000);
-  dots.forEach((dot,i)=>dot.addEventListener('click',()=>{current=i; showSlide(i);}));
+
+  function nextSlide(){
+    current=(current+1)%slides.length;
+    showSlide(current);
+  }
+
+  function startCarousel(){ interval=setInterval(nextSlide, intervalTime); }
+  function stopCarousel(){ clearInterval(interval); }
+
+  slides.forEach(s=>s.addEventListener('click',()=>{ 
+    if(interval) stopCarousel(); else startCarousel(); 
+  }));
+
+  let startX=0;
+  carousel.addEventListener('touchstart', e=>{ startX=e.touches[0].clientX; });
+  carousel.addEventListener('touchend', e=>{
+    const endX=e.changedTouches[0].clientX;
+    if(endX-startX>30) { current=(current-1+slides.length)%slides.length; showSlide(current); }
+    else if(startX-endX>30) { nextSlide(); }
+    stopCarousel(); // stop auto after swipe
+  });
+
+  dots.forEach((dot,i)=>dot.addEventListener('click',()=>{ current=i; showSlide(i); stopCarousel(); }));
+
+  startCarousel();
 
   // Form submission
-  const form = document.getElementById('contactForm');
-  form.addEventListener('submit', function(e){
+  const form=document.getElementById('contactForm');
+  form.addEventListener('submit',function(e){
     e.preventDefault();
-    const formData = new FormData(this);
-    fetch('https://formspree.io/f/xblzebjw', {
-      method: 'POST',
-      body: formData,
-      headers: {'Accept': 'application/json'}
-    }).then(r => r.ok ? document.getElementById('successMsg').style.display='block' : alert('Submission error')).catch(() => alert('Network error'));
+    const formData=new FormData(this);
+    fetch('https://formspree.io/f/xblzebjw',{
+      method:'POST',
+      body:formData,
+      headers:{'Accept':'application/json'}
+    }).then(r=>r.ok?document.getElementById('successMsg').style.display='block':alert('Submission error'))
+      .catch(()=>alert('Network error'));
   });
 
   // Google Map
   function initMap(){
-    const location = {lat: 39.5642179, lng: -76.824325};
-    const map = new google.maps.Map(document.getElementById('map'), {
-      center: location,
-      zoom: 16
-    });
-    new google.maps.Marker({position: location, map: map});
+    const location={lat:39.5642179,lng:-76.824325};
+    const map=new google.maps.Map(document.getElementById('map'),{center:location,zoom:16});
+    new google.maps.Marker({position:location,map:map});
   }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC24fpancwTjsOynjCBlYe7jLcLidCBAns&callback=initMap" async defer></script>
