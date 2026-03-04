@@ -200,11 +200,12 @@
 <body>
 
 <header>
-  <h1>Exclusive Horse Barn & Pasture for Rent – Upperco, MD</h1>
+  <h1>Exclusive Horse Barn & Pasture for Rent – Upperco, MD (No Longer Available)</h1>
 </header>
 
 <section id="about" class="card">
   <h2>About the Property</h2>
+  <p style="font-weight: bold; color: red; text-align: center;">This property is no longer available for rent. Thank you for your interest.</p>
   <p>Enjoy a private equestrian retreat with <strong>full access to a spacious bank barn</strong> featuring two stalls and <strong>ample storage for hay, feed, and equipment</strong>. The property also includes approximately <strong>4 acres of fenced paddock and pasture</strong> and a private outdoor area for riding, grooming, or relaxing.</p>
   <p>We are looking for someone with 2–3 horses. <strong>Rent is approximately $300 per horse per month</strong>, depending on your needs.</p>
   <p><strong>Property Address:</strong> 5200 Old Quarter Road, Upperco, MD 21155</p>
@@ -244,21 +245,22 @@
 
 <section id="contact">
   <h2>Contact</h2>
+  <p style="font-weight: bold; color: red; text-align: center;">This property is no longer available for rent. The contact form has been disabled.</p>
   <p>Call or Text: <a href="tel:+14436057640" class="phone-link">443-605-7640</a> or complete the form below:</p>
   <form id="contactForm">
     <label for="name">Full Name</label>
-    <input type="text" id="name" name="name" required />
+    <input type="text" id="name" name="name" required disabled />
     <label for="email">Email</label>
-    <input type="email" id="email" name="email" required />
+    <input type="email" id="email" name="email" required disabled />
     <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" name="phone" />
+    <input type="tel" id="phone" name="phone" disabled />
     <label for="horses">Number of Horses</label>
-    <input type="number" id="horses" name="horses" min="1" max="3" />
+    <input type="number" id="horses" name="horses" min="1" max="3" disabled />
     <label for="start">Desired Start Date</label>
-    <input type="date" id="start" name="start" />
+    <input type="date" id="start" name="start" disabled />
     <label for="message">Describe your horse needs</label>
-    <textarea id="message" name="message" rows="5"></textarea>
-    <button type="submit">Send Request</button>
+    <textarea id="message" name="message" rows="5" disabled></textarea>
+    <button type="submit" disabled>Send Request</button>
   </form>
   <div id="successMsg">Thank you! Your request has been submitted.</div>
 </section>
@@ -343,19 +345,20 @@
   startCarousel();
 
   /* ===== Form Submission ===== */
-  const form = document.getElementById('contactForm');
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    fetch('https://formspree.io/f/xblzebjw', {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    }).then(r => r.ok
-      ? document.getElementById('successMsg').style.display = 'block'
-      : alert('Submission error')
-    ).catch(() => alert('Network error'));
-  });
+  // The form is disabled as the property is no longer available.
+  // const form = document.getElementById('contactForm');
+  // form.addEventListener('submit', function (e) {
+  //   e.preventDefault();
+  //   const formData = new FormData(this);
+  //   fetch('https://formspree.io/f/xblzebjw', {
+  //     method: 'POST',
+  //     body: formData,
+  //     headers: { 'Accept': 'application/json' }
+  //   }).then(r => r.ok
+  //     ? document.getElementById('successMsg').style.display = 'block'
+  //     : alert('Submission error')
+  //   ).catch(() => alert('Network error'));
+  // });
 
   /* ===== Google Map ===== */
   function initMap() {
