@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Contact · Old Quarter Barn</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Playfair+Display:wght@400;500&family=EB+Garamond:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body><header><nav><a href="amenities.html">Amenities</a><a href="gallery.html">Gallery</a></nav>
+<a class="brand" href="index.html"><b>Old Quarter Barn</b><span>Upperco &middot; Maryland</span></a>
+<nav><a href="pricing.html">Pricing</a><a href="contact.html" class="cur">Contact</a></nav></header>
+<section class="banner"><div class="f1"></div><div class="f2"></div><h1 class="script big">Contact</h1><div class="sub"><span class="ln"></span><i class="dia"></i>Inquire About Renting<i class="dia"></i><span class="ln"></span></div></section>
+<section class="cgrid"><div><h2>Find Us</h2><div class="rule l"></div><address>5200 Old Quarter Road<br>Upperco, MD 21155</address>
+<div class="maps"><a class="sm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=39.562497,-76.824866">Google Maps</a><a class="sm" target="_blank" rel="noopener" href="https://maps.apple.com/?ll=39.562497,-76.824866&q=Old%20Quarter%20Barn">Apple Maps</a></div>
+<div class="mapbox"><iframe src="https://maps.google.com/maps?q=39.562497,-76.824866&z=15&output=embed" title="Map of Old Quarter Barn" loading="lazy"></iframe><div class="tint"></div><div class="inset"></div></div></div>
+<div><h2>Send an Inquiry</h2><div class="rule l"></div>
+<div id="thanks" hidden>Thank you. Your inquiry has been received.</div>
+<form id="f"><div><label for="n">Name</label><input id="n" name="name" type="text" required></div>
+<div><label for="e">Email</label><input id="e" name="email" type="email" required></div>
+<div><label for="p">Phone</label><input id="p" name="phone" type="tel"></div>
+<div><label for="d">Desired start date</label><input id="d" name="start" type="date"></div>
+<div><label for="m">Message</label><textarea id="m" name="message" rows="4"></textarea></div>
+<button type="submit" class="btn solid">Send inquiry</button></form></div></section>
+<footer class="bt">Old Quarter Barn · 5200 Old Quarter Road, Upperco, MD 21155</footer>
+<script>var f=document.getElementById('f');f.onsubmit=function(e){e.preventDefault();f.hidden=true;document.getElementById('thanks').hidden=false}</script>
+</body></html>
