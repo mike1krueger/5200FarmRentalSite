@@ -11,19 +11,18 @@
 <button id="close">Close &times;</button>
 <script>
 var D=[
-{name:'The Barn',pics:['media/aerial.jpg','media/interior.jpg','media/barn.jpg'],long:['A covered barn with two stalls, set at the center of the property.','Your horses are kept under cover and close to the ring and field, so everything you need each day is within a short walk.','The barn is yours alone for the length of the rental, with no other tenants on site.']},
-{name:'The Riding Ring',pics:['media/ring.jpg','media/rider.jpg','media/aerial.jpg'],long:['A riding ring reserved for your use throughout the month.','Schedule your own lessons, schooling and training without waiting for a turn or sharing the space with other riders.','The ring sits beside the barn and field, which keeps tacking up, riding and cooling out within one stretch of the property.']},
-{name:'The Open Field',pics:['media/fence.jpg','media/aerial.jpg','media/rider.jpg'],long:['An open field with room to ride, hack and park.','Use it for conditioning work, turnout or simply extra space around the barn and ring.','Like the rest of the property, the field is exclusively yours for the month.']}];
+{name:'The Barn',pics:['media/aerial.jpg','media/interior.jpg','media/barn.jpg'],long:['A timber frame barn with two stalls, set at the center of the property.','Your horses are kept under cover and close to the ring and field, so everything you need each day is within a short walk.','A tack room keeps saddles and gear organized, and there is ample storage throughout, including a loft for hay and supplies.']},
+{name:'The Riding Ring',pics:['media/rider.jpg','media/ring.jpg'],long:['A full-size dressage ring, 197 by 66 feet (60 by 20 meters), for your exclusive use.','Schedule your own lessons, schooling and training without waiting for a turn or sharing the space with other riders.','The ring sits beside the barn and field, so tacking up, riding and cooling out all happen within a few steps.']},
+{name:'The Open Field',pics:['media/fence.jpg'],long:['An open field of about 6 acres, enclosed by traditional three-board oak fencing.','The pasture is well established, with thick, healthy grass that holds up to grazing and riding.','Use it for turnout, conditioning work or simply extra space around the barn and ring.']}];
 var o=-1,s=0,$=function(i){return document.getElementById(i)};
 $('list').innerHTML=D.map(function(d,i){return '<button data-i="'+i+'"><span class="num">0'+(i+1)+'</span><span class="nm">'+d.name+'</span><span class="v">View</span></button>'}).join('');
-function draw(){var d=D[o];$('ttl').textContent=d.name;$('body').innerHTML=d.long.map(function(p){return '<p>'+p+'</p>'}).join('');$('pimg').src=d.pics[s];$('pimg').alt=d.name;
+function draw(){var d=D[o],m=d.pics.length>1?'':'none';$('prev').style.display=$('next').style.display=$('dots').style.display=m;$('ttl').textContent=d.name;$('body').innerHTML=d.long.map(function(p){return '<p>'+p+'</p>'}).join('');$('pimg').src=d.pics[s];$('pimg').alt=d.name;
 $('dots').innerHTML=d.pics.map(function(_,i){return '<i data-s="'+i+'" style="width:'+(i==s?48:28)+'px;opacity:'+(i==s?1:.4)+'"></i>'}).join('')}
 function open_(i){o=i;s=0;draw();$('ov').classList.add('open');document.body.style.overflow='hidden'}
 function close_(){o=-1;$('ov').classList.remove('open');document.body.style.overflow=''}
-function step(d){if(o<0)return;s=(s+d+3)%3;draw()}
+function step(d){if(o<0)return;var n=D[o].pics.length;s=(s+d+n)%n;draw()}
 $('list').onclick=function(e){var b=e.target.closest('button');if(b)open_(+b.dataset.i)};
 $('dots').onclick=function(e){if(e.target.dataset.s){s=+e.target.dataset.s;draw()}};
 $('prev').onclick=function(){step(-1)};$('next').onclick=function(){step(1)};$('close').onclick=close_;
 document.addEventListener('keydown',function(e){if(e.key=='Escape')close_();if(e.key=='ArrowRight')step(1);if(e.key=='ArrowLeft')step(-1)});
-setInterval(function(){step(1)},5000);
 </script></body></html>
